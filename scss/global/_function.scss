@@ -10,6 +10,8 @@ $mediaquerys: (
   md: "screen and (max-width: #{map-get($breakpoints,'md')}px)",
   lg: "screen and (max-width: #{map-get($breakpoints,'lg')}px)",
 );
+
+
 // @include mq(){}で書くとブレークポイントが反映される（初期値はmd）
 @mixin mq($mediaquery: md) {
   @media #{map-get($mediaquerys, $mediaquery)} {
@@ -26,10 +28,23 @@ $mediaquerys: (
     }
     @return $number;
 }
-
 @function vw($window_width, $font_size) {
     @return math.div($font_size, $window_width) * 100vw;
 }
+
+
+// 画面幅の変数を定義
+$minWindow: 375;
+$maxWindow: 1210;
+
+@function clp($base_font) {
+  @return clamp(
+    $base_font * 0.625 * 0.1rem,
+    ($base_font * 0.625 * 0.1rem) + math.div($base_font * 0.625 * 0.15, $maxWindow - $minWindow) * (100vw - $minWindow * 1px),
+    $base_font * 0.625 * 0.115rem
+  );
+}
+
 
 $base-font-family:  "Noto Sans JP", sans-serif;
 $second-font-family: "Roboto Condensed", sans-serif ;
